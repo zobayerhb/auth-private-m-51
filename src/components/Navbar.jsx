@@ -1,6 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { AuthProviders } from "../provider/AuthProvider";
 
 const Navbar = () => {
+  const authInfo = useContext(AuthProviders)
+  console.log(authInfo)
+
   const links = (
     <>
       <li>
@@ -41,7 +46,7 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <Link to="/" className="btn btn-ghost text-xl">{authInfo.name}</Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
