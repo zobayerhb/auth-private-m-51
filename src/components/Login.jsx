@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
-  const { userLogin } = useContext(AuthContext);
+  const { userLogin, createUserWithGoogle } = useContext(AuthContext);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -16,12 +16,23 @@ const Login = () => {
       .then((res) => {
         console.log(res.user);
         alert("user sign in");
+        e.target.reset()
       })
       .catch((error) => {
         console.log("ERROR", error.message);
       });
   };
-  
+
+  const handleGoogleSignIn = () => {
+    createUserWithGoogle()
+      .then((result) => {
+        console.log("User create with google sign in", result.user);
+      })
+      .catch((error) => {
+        console.log("ERROR", error.message);
+      });
+  };
+
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col">
@@ -68,6 +79,11 @@ const Login = () => {
             <Link to="/register" className="text-blue-500 font-bold">
               Register
             </Link>
+          </p>
+          <p>
+            <button onClick={handleGoogleSignIn} className="btn btn-accent">
+              Sign in With GOOGLE
+            </button>
           </p>
         </div>
       </div>
