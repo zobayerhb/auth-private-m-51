@@ -3,7 +3,18 @@ import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 
 const Navbar = () => {
-  const authInfo = useContext(AuthContext)
+  const { user, userSignOut } = useContext(AuthContext);
+  console.log(user, userSignOut);
+
+  const handleUserSingOut = () => {
+    userSignOut()
+      .then(() => {
+        alert("user sign out....");
+      })
+      .catch((error) => {
+        console.log("ERROR", error.message);
+      });
+  };
 
   const links = (
     <>
@@ -45,13 +56,26 @@ const Navbar = () => {
             {links}
           </ul>
         </div>
-      <Link to="/" className="btn btn-ghost text-xl">{authInfo.name}</Link>
+        <Link to="/" className="btn btn-ghost text-xl">
+          users demo
+        </Link>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {user ? (
+          <>
+            <span>{user.email}</span>
+            <button onClick={handleUserSingOut} className="btn ml-2">
+              Logout
+            </button>
+          </>
+        ) : (
+          <Link to="/login" className="btn">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );
